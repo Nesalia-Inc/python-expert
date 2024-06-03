@@ -44,8 +44,8 @@ class Utilisateur:
                and self.roles == value.roles 
     
     
-    def connecter(self) -> None:
-        print("Utilisateur connecté avec succès !")
+    def connecter(self, session : Session) -> None:
+        print(f"Utilisateur connecté avec succès dans la session {session.identifiant} !")
         
         
     
@@ -58,7 +58,7 @@ if __name__ == "__main__":
                     )
     
     session = Session(30)
-    u1.connecter()
+    u1.connecter(session)
     
     u2 = Utilisateur("Jean", 
                      email="jean@gmail.com", 
@@ -67,7 +67,7 @@ if __name__ == "__main__":
                     )
     
     session = Session(30)
-    u2.connecter()
+    u2.connecter(session)
     
     if u1 == u2:
         print("Deux utilisateur identiques connectés actuellement !")

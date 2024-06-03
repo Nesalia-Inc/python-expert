@@ -18,10 +18,10 @@ class CouldNotConnectUserError(ValueError):
 
 
 def verifier_identifiant(identifiant : int) -> bool:
-    return False 
+    return False
 
 def verifier_mot_de_passe(mdp : str) -> bool:
-    return False 
+    return False
 
 
 def connecter(identifiant : int, mot_de_passe : str) -> None:
