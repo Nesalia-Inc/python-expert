@@ -10,18 +10,8 @@ class Item(Enum):
     MOUSE = 12.25
 
 
-@dataclass
-class Items:
-    items : list[Item] 
-
-
-    @property
-    def price(self) -> float:
-        return sum([item.value for item in self.items])
-
-
 class Order:
-    def __init__(self, order_id : int, customer_name : str, items : Items):
+    def __init__(self, order_id : int, customer_name : str, items : list[Item]):
         self.order_id = order_id
         self.customer_name = customer_name
         self.items = items 
@@ -29,12 +19,16 @@ class Order:
 
     def __str__(self) -> str:
         """Return a string representation of the order."""
-        items_str = "\n".join([f"{item.name}: ${item.value}" for item in self.items.items])
-        return f"Order ID: {self.order_id}\nCustomer: {self.customer_name}\nItems:\n{items_str}\nTotal: ${self.items.price}"
+        items_str = "\n".join([f"{item.name}: ${item.value}" for item in self.items])
+        return f"Order ID: {self.order_id}\nCustomer: {self.customer_name}\nItems:\n{items_str}\nTotal: ${self._get_total_price()}"
+        
+        
+    def _get_total_price(self) -> float:
+        return sum([item.value for item in self.items])
         
         
     @classmethod
-    def create_order(cls, order_id : int, customer_name : str, items : Items):
+    def create_order(cls, order_id : int, customer_name : str, items : list[Item]):
         """Factory method to create a new Order instance."""
         
         order = cls(order_id, customer_name, items)
@@ -55,6 +49,6 @@ class Order:
     
     
 if __name__ == '__main__':
-    order = Order.create_order(1, "Alice", Items([Item.LAPTOP, Item.LAPTOP, Item.MOUSE]))
+    order = Order.create_order(1, "Alice", [Item.LAPTOP, Item.LAPTOP, Item.MOUSE])
 
     print(order)
