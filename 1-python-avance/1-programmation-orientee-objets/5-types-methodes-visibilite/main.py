@@ -18,7 +18,6 @@ class Order:
 
 
     def __str__(self) -> str:
-        """Return a string representation of the order."""
         items_str = "\n".join([f"{item.name}: ${item.value}" for item in self.items])
         return f"Order ID: {self.order_id}\nCustomer: {self.customer_name}\nItems:\n{items_str}\nTotal: ${self._get_total_price()}"
         
@@ -29,8 +28,6 @@ class Order:
         
     @classmethod
     def create_order(cls, order_id : int, customer_name : str, items : list[Item]):
-        """Factory method to create a new Order instance."""
-        
         order = cls(order_id, customer_name, items)
         order._validate_order_id(order_id)
         order._validate_customer_name(customer_name)
@@ -38,12 +35,10 @@ class Order:
         return order
 
     def _validate_order_id(self, order_id : int) -> None:
-        """Private method to validate order ID."""
         if not isinstance(order_id, int) or order_id <= 0:
             raise ValueError("Order ID must be a positive integer.")
     
     def _validate_customer_name(self, customer_name : str) -> None:
-        """Private method to validate customer name."""
         if not isinstance(customer_name, str) or not customer_name.strip():
             raise ValueError("Customer name must be a non-empty string.")
     

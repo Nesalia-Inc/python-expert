@@ -33,6 +33,15 @@ class SoftwareVersion:
         return f"{self.majeure}.{self.mineure}.{self.patch}"
 
 
+
+
+
+
+
+
+
+
+
 version1 = SoftwareVersion(1, 2, 3)
 version2 = SoftwareVersion(1, 2, 4)
 version3 = SoftwareVersion(1, 2, 3)

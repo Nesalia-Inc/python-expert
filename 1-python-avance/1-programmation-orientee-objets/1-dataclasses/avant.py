@@ -13,12 +13,12 @@ class Session:
         self.__identifiant = generer_identifiant_session()
         self.__temps = temps
         
-    @property
-    def identifiant(self) -> int:
+    
+    def get_identifiant(self) -> int:
         return self.__identifiant
     
-    @property
-    def temps(self) -> float:
+    
+    def get_temps(self) -> float:
         return self.__temps 
 
 
@@ -45,7 +45,7 @@ class Utilisateur:
     
     
     def connecter(self, session : Session) -> None:
-        print(f"Utilisateur connecté avec succès dans la session {session.identifiant} !")
+        print(f"Utilisateur connecté avec succès dans la session {session.get_identifiant()} !")
         
         
     

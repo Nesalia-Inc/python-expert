@@ -8,8 +8,6 @@ def afficher(valeur : int) -> None: ...
 def afficher(valeur : list[int]) -> None: ... 
 
 
-
-
 def afficher(valeur : int | list[int]) -> None:
     match valeur:
         case int():

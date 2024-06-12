@@ -1,30 +1,49 @@
+from enum import Enum, auto  
+
+
+class Status(Enum):
+    OPEN = auto()
+    IN_PROGRESS = auto()
+    CLOSED = auto() 
+    
+    
+    @classmethod
+    def next(cls, current : "Status") -> "Status":
+        all_status = list(Status) 
+        index = all_status.index(current)
+        
+        return all_status[(index + 1) % 3]
+    
+    
+class Priority(Enum):
+    LOW = auto()
+    MEDIUM = auto()
+    URGENT = auto()
+    
+    NORMAL = LOW 
+    IMPORTANT = MEDIUM
+    HIGH = URGENT
+    
+
   
+
 class Ticket:
-    def __init__(self, title : str, description : str, priority : str):
+    def __init__(self, title : str, description : str, priority : Priority):
         self.title = title
         self.description = description
         self.priority = priority
-        self.status = "OPEN"
+        self.status = Status.OPEN
     
     def __str__(self) -> str:
         return f"Ticket(title={self.title}, description={self.description}, priority={self.priority}, status={self.status})"
     
-    def update_status(self, new_status : str) -> None:
-        if not new_status in ["OPEN", "IN_PROGRESS", "CLOSED"]:
-            raise ValueError("Invalid status value")
-        self.status = new_status
-    
-    def update_priority(self, new_priority : str) -> None:
-        if not new_priority in ["LOW", "MEDIUM", "URGENT"]:
-            raise ValueError("Invalid priority value")
-        self.priority = new_priority
+
 
 
 
 if __name__ == "__main__":
-    ticket = Ticket("Bug dans le système de connection", "Le client ne peut se connecter", "HIGH") 
+    ticket = Ticket("Bug dans le système de connection", "Le client ne peut pas se connecter", Priority.NORMAL) 
     
-    ticket.update_status("IN_PROGRESS") 
+    ticket.status = Status.next(Status.IN_PROGRESS)
     
     print(ticket)
-    

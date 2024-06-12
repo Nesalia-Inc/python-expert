@@ -48,7 +48,7 @@ class Ticket:
 
 
 if __name__ == "__main__":
-    ticket = Ticket("Bug dans le système de connection", "Le client ne peut se connecter", Priority.HIGH) 
+    ticket = Ticket("Bug dans le système de connection", "Le client ne peut pas se connecter", Priority.HIGH) 
     
     ticket.update_status(Status.next(ticket.status)) 
     

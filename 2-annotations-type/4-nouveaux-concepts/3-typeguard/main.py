@@ -1,20 +1,9 @@
-from typing import TypeGuard, overload
+from typing import TypeGuard, TypeVar, overload
 
 
 
 def is_str_list(liste : list) -> TypeGuard[list[str]]:
     return all([isinstance(x, str) for x in liste])
-
-
-
-def check(liste : list[int] | list[str]) -> None:
-    if is_str_list(liste):
-        print("Je suis une liste de chaînes de caractères")
-    else:
-        print("Je suis une liste d'entiers")
-        
-        
-        
 
 def is_int_list(liste : list) -> TypeGuard[list[int]]:
     return all([isinstance(x, int) for x in liste]) 
@@ -42,4 +31,7 @@ def somme(liste):
 
 
 
-somme([1, 2, 3])
+if __name__ == '__main__':
+    print(somme([1, 2, 3, 4, 5]))
+    print(somme(["1", "2", "3", "4", "5"]))
+    
