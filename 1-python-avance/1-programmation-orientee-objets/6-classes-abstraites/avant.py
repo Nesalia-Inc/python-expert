@@ -1,7 +1,5 @@
 
 
-
-
 class Chien:
     def __init__(self, nom : str, age : int, taille : int) -> None:
         self.nom = nom 

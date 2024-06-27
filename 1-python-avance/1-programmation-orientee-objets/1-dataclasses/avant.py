@@ -1,15 +1,16 @@
-import random 
+import random
+from typing import Final 
 
 
 def generer_identifiant_session() -> int:
-    min = 100_000
-    max = 1_000_000
+    MIN : Final[int] = 100_000
+    MAX : Final[int] = 1_000_000
     
-    return random.randint(min, max)
+    return random.randint(MIN, MAX)
 
 
 class Session:
-    def __init__(self, temps : float) -> None:
+    def __init__(self, *, temps : float) -> None:
         self.__identifiant = generer_identifiant_session()
         self.__temps = temps
         
@@ -20,15 +21,16 @@ class Session:
     
     def get_temps(self) -> float:
         return self.__temps 
-
-
+    
+    
+    
 class Utilisateur:
-    def __init__(self, nom : str, *, email : str, mot_de_passe : str, roles : list[str]) -> None:
+    def __init__(self, nom : str, email : str, mot_de_passe : str) -> None:
         self.nom = nom 
         self.email = email 
         self.mot_de_passe = mot_de_passe
         
-        self.roles = roles
+        self.roles = ["membre"]
         
         
     def __repr__(self) -> str:
@@ -38,36 +40,23 @@ class Utilisateur:
         if not isinstance(value, Utilisateur):
             raise ValueError
         
-        return self.nom == value.nom \
-               and self.email == value.email \
-               and self.mot_de_passe == value.mot_de_passe \
-               and self.roles == value.roles 
+        return (self.nom, self.email, self.mot_de_passe) == (value.nom, value.email, value.mot_de_passe)
+        
+
     
     
-    def connecter(self, session : Session) -> None:
+    def connecter(self) -> None:
+        session = Session(temps=30)
         print(f"Utilisateur connecté avec succès dans la session {session.get_identifiant()} !")
         
-        
     
+if __name__ == '__main__':
+    utilisateur = Utilisateur("Jean", "jean@gmail.com", "1234")
+    print(utilisateur)
     
-if __name__ == "__main__":
-    u1 = Utilisateur("Jean", 
-                     email="jean@gmail.com", 
-                     mot_de_passe="jean1234", 
-                     roles=["redacteur", "moderateur"]
-                    )
+    utilisateur.connecter()
     
-    session = Session(30)
-    u1.connecter(session)
+    utilisateur2 = Utilisateur("Jean", "jean@gmail.com", "1234")
+    utilisateur2.connecter()
     
-    u2 = Utilisateur("Jean", 
-                     email="jean@gmail.com", 
-                     mot_de_passe="jean1234", 
-                     roles=["redacteur", "moderateur"]
-                    )
-    
-    session = Session(30)
-    u2.connecter(session)
-    
-    if u1 == u2:
-        print("Deux utilisateur identiques connectés actuellement !")
+    print(utilisateur == utilisateur2) # True

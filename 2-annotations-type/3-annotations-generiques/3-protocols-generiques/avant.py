@@ -1,27 +1,27 @@
-from abc import ABC, abstractmethod
 import random
-from typing import Protocol
+from typing import Protocol, TypeVar, Generic
 
+T = TypeVar("T", contravariant=True)
 
 
 class CanDie(Protocol):
     def die(self) -> None: ...
     
     
-class CanAttack(Protocol):
-    def attack(self, other) -> None: ...
+class CanAttack(Protocol[T]):
+    def attack(self, other : T) -> None: ...
     
     
     
     
-class Entity(CanDie, CanAttack):
+class Entity(Generic[T], CanDie, CanAttack[T]):
     def __init__(self, life : int, strengh : int, defense : int) -> None:
         self.life = life 
         self.strengh = strengh
         self.defense = defense
     
     
-    def attack(self, other) -> None:
+    def attack(self, other : T) -> None:
         if not isinstance(other, Entity):
             raise ValueError
         
@@ -32,11 +32,11 @@ class Entity(CanDie, CanAttack):
         print("Je suis mort")
     
     
-class Monster(Entity):
+class Monster(Entity["Player"]):
     pass 
 
 
-class Player(Entity):
+class Player(Entity["Monster"]):
     pass 
         
         
@@ -53,6 +53,7 @@ def random_attack(first : CanAttack, second : CanAttack) -> None:
 if __name__ == '__main__':
     player = Player(100, 25, 10)
     monster = Monster(50, 10, 5)
+    
     
     random_attack(player, monster)
     
