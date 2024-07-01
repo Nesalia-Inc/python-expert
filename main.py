@@ -1,17 +1,19 @@
-from enum import Enum
+from typing import Callable, TypeVar
+from typing_extensions import ParamSpec
 
-class Color(Enum):
-    RED = 0
-    GREEN = 1
-    BLUE = 2
+P = ParamSpec('P')
+R = TypeVar('R')
 
+def mon_decorateur(f: Callable[P, R]) -> Callable[P, R]:
+    def wrapper(*args: P.args, **kwargs: P.kwargs) -> R:
+        print("Avant d'appeler la fonction")
+        result = f(*args, **kwargs)
+        print("Après avoir appelé la fonction")
+        return result
+    return wrapper
 
-color = Color.RED
+@mon_decorateur
+def add(a: int, b: int) -> int:
+    return a + b
 
-match color:
-    case Color.RED:
-        print("I see red!")
-    case Color.GREEN:
-        print("Grass is green")
-        
-
+print(add(3, 4))

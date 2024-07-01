@@ -6,6 +6,7 @@ class Ticket:
         self.title = title
         self.description = description
         self.priority = priority
+        
         self.status = "OPEN"
     
     def update_status(self, new_status : str) -> None:
@@ -17,6 +18,11 @@ class Ticket:
         if not new_priority in ["LOW", "MEDIUM", "URGENT"]:
             raise ValueError("Invalid priority value")
         self.priority = new_priority
+    
+        
+    def __str__(self) -> str:
+        return f"Ticket(title={self.title}, description={self.description}, priority={self.priority}, status={self.status})"
+    
 
 
 
