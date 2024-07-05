@@ -1,20 +1,14 @@
-from typing import TypedDict, Required, NotRequired
 
-
-class Personne(TypedDict):
-    nom : str 
-    age : Required[int] 
-    taille : NotRequired[float]
-    
 
 
 if __name__ == '__main__':
-    personne : Personne = {
+    personne : dict[str, str | int | float] = {
         "nom" : "Jean",
-        "age" : 45
+        "age" : 45,
+        "taille" : 1.78
     }
-    
 
-    
-    
+    personne["moteur"] = "Diesel" # Wow 
+    personne["age"] = 1.25
+
     print(personne)

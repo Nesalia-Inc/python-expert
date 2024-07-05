@@ -1,19 +1,29 @@
-from typing import Callable, TypeVar
-from typing_extensions import ParamSpec
+from typing import TypeVar, Protocol
 
-P = ParamSpec('P')
-R = TypeVar('R')
 
-def mon_decorateur(f: Callable[P, R]) -> Callable[P, R]:
-    def wrapper(*args: P.args, **kwargs: P.kwargs) -> R:
-        print("Avant d'appeler la fonction")
-        result = f(*args, **kwargs)
-        print("Après avoir appelé la fonction")
-        return result
-    return wrapper
+T = TypeVar("T", contravariant=True)
+G = TypeVar("G", covariant=True)
 
-@mon_decorateur
-def add(a: int, b: int) -> int:
-    return a + b
+# `Protocol` est aussi une annotation de type générique
+# qui peut être utilisée pour créer des protocols génériques. 
+class Operation(Protocol[T, G]):
+    def operation(self, elements : T) -> G: ...
+    
+    
+    
+class SommeEntiers(Operation[list[int], int]):
+    def operation(self, elements : list[int]) -> int:
+        return sum(elements)
+    
 
-print(add(3, 4))
+class ConcatenerChaines(Operation[list[str], str]):
+    def operation(self, elements : list[str]) -> str:
+        return ''.join(elements)
+    
+    
+    
+    
+if __name__ == '__main__':
+    print(SommeEntiers().operation([1, 2, 3]))
+    print(ConcatenerChaines().operation(["1", "2", "3"]))
+    

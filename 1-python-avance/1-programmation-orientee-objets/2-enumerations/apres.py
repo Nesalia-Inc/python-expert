@@ -15,16 +15,15 @@ class Status(Enum):
     CLOSED = auto()
     
     
-    # Il est possible de rajouter des méthodes de classe dans une énumération. 
+    # Il est possible de rajouter des méthodes dans une énumération. 
     # Généralement, je les utilises comme méthodes utilitaires comme ici. 
     # Le but de cette méthode est simplement de passer au status suivant 
     # d'un status donné tout en veillant à bien revenir au début si nécessaire
-    @classmethod
-    def next(cls, current : "Status") -> "Status":
-        all_status = list(cls)
-        index = all_status.index(current)
+    def next(self) -> "Status":
+        all_status = list(Status)
+        index = all_status.index(self)
         
-        return all_status[(index + 1) % 3]
+        return all_status[(index + 1) % len(all_status)]
     
     
 class Priority(Enum):
@@ -73,7 +72,7 @@ if __name__ == "__main__":
         Priority.HIGH
         ) 
     
-    ticket.status = Status.next(ticket.status)
+    ticket.status = ticket.status.next()
     
     print(ticket)
     

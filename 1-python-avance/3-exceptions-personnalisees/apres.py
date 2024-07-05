@@ -1,4 +1,8 @@
+import re
+from typing import Final, Optional
 
+
+ID_SIZE : Final[int] = 4
 
 # Quand on veut créer une exception personnalisée, on va créer une classe
 # qui hérite d'une exception native. Cette exception va jouer le rôle d'exception
@@ -11,39 +15,50 @@ class CouldNotConnectUserError(ValueError):
 # Chaque exception personnalisée à la possibilité de redéfinir le constructeur
 # de sa classe mère. Chaque exception native possède un constructeur
 # qui a comme seul paramètre un `message` qui est une chaîne de caractères.
-class InvalidIDError(CouldNotConnectUserError):
-    def __init__(self, message : str, identifiant : int) -> None:
+class InvalidIDSizeError(CouldNotConnectUserError):
+    def __init__(self, message : Optional[str] = None) -> None:
+        if message is None:
+            message = f"Le mot de passe doit faire {ID_SIZE} caractères"
+        
         super().__init__(message)
-        self.identifiant = identifiant
 
 
-class InvalidPasswordError(CouldNotConnectUserError):
-    def __init__(self, message : str, mot_de_passe : str) -> None:
+class InvalidPasswordFormatError(CouldNotConnectUserError):
+    def __init__(self, message : Optional[str] = None) -> None:
+        if message is None:
+            message = "Le mot de passe doit faire au moins 8 caractères avec une majuscule et un caractère spécial"
+        
         super().__init__(message)
-        self.mot_de_passe = mot_de_passe
 
 
 
 
+def check_identifiant(identifiant : str) -> bool:
+    IS_SIZE_CORRECT = len(identifiant) == 4
+    
+    return IS_SIZE_CORRECT
+    
 
-def verifier_identifiant(identifiant : int) -> bool:
-    return False
+def check_password(password : str) -> bool:
+    # Vérifie qu'il y a +8 caractères, une majuscule et un caractère spécial
+    REGEX = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+    
+    if not re.match(REGEX, password):
+        return False 
+    return True
 
-def verifier_mot_de_passe(mdp : str) -> bool:
-    return False
 
-
-def connecter(identifiant : int, mot_de_passe : str) -> None:
+def connecter(identifiant : str, password : str) -> None:
     
     # Quand on veut gérer des exceptions, on va regrouper le code
     # qui peut causer une erreur dans un bloc `try`. 
     try:
         erreurs : list[ValueError] = []
-        if not verifier_identifiant(identifiant):
-            erreurs.append(InvalidIDError("Identifiant invalide", identifiant))
+        if not check_identifiant(identifiant):
+            erreurs.append(InvalidIDSizeError())
         
-        if not verifier_mot_de_passe(mot_de_passe):
-            erreurs.append(InvalidPasswordError("Le mot de passe n'est pas correct", mot_de_passe))
+        if not check_password(password):
+            erreurs.append(InvalidPasswordFormatError())
             
         if erreurs:
             
@@ -85,4 +100,4 @@ def connecter(identifiant : int, mot_de_passe : str) -> None:
 
 
 if __name__ == "__main__":
-    connecter(1234, "1234")
+    connecter("124", "exemple@")

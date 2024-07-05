@@ -14,12 +14,7 @@ class Monstres:
     def append(self, monstre : Monstre) -> None:
         self.__monstres.append(monstre)
         
-    # Quand on a une classe qui possède un ensemble d'éléments sur lesquels
-    # on aimerait pouvoir itérer directement, on peut définir la méthode `__iter__`.
-    # et renvoyer la fonction `iter` sur cet ensemble d'éléments. 
-    
-    # Retourner un `Iterator[Monstre]` va permettre à la boucle `for` de comprendre
-    # que chaque élément de cette "liste" est de type `Monstre`. 
+        
     def __iter__(self) -> Iterator[Monstre]:
         return iter(self.__monstres)
     

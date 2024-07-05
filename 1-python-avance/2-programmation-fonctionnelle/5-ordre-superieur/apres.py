@@ -1,4 +1,34 @@
 from functools import reduce
+from typing import Callable
+
+
+
+def mon_map(func : Callable[[int], int], seq : list[int]) -> list[int]:
+    resultat : list[int] = []
+    
+    for element in seq:
+        resultat.append(func(element))
+        
+    return resultat
+
+
+def mon_filter(func : Callable[[int], int], seq : list[int]) -> list[int]:
+    resultat = []
+    
+    for element in seq:
+        if func(element):
+            resultat.append(element)
+            
+    return resultat
+
+
+def mon_reduce(func : Callable[[int, int], int], seq : list[int]) -> int:
+    resultat = 0
+    
+    for element in seq:
+        resultat = func(resultat, element)
+        
+    return resultat
 
 
 def get_pairs(nombres : list[int]) -> list[int]:
@@ -41,8 +71,16 @@ def double(nombres : list[int]) -> list[int]:
 
 
 def somme(nombres : list[int]) -> list[int]:
+    # Le fonctionnement de `reduce` est différent et un peu plus complexe. 
+    # Cette fonction va prendre en paramètre une autre fonction qui prends 
+    # en paramètre deux éléments puis une séquence d'éléments. 
+    
+    # Quand on veut faire la somme avec la fonction reduce, elle
+    # va faire ((((1 + 2) + 3) + 4) + 5). Elle est donc utilisée pour
+    # récupérer un résultat précis d'une séquence d'éléments. 
     return reduce(lambda x, y : x + y, nombres) # type: ignore
 
 
-
-print(somme([1, 2, 3, 4, 5]))
+if __name__ == '__main__':
+    
+    print(mon_reduce(lambda x, y : x + y, [1, 2, 3, 4, 5]))
